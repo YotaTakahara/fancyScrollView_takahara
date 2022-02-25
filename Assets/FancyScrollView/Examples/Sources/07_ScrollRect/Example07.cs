@@ -24,7 +24,7 @@ namespace FancyScrollView.Example07
 
         void Start()
         {
-            scrollView.OnCellClicked(index => selectIndexInputField.text = index.ToString());
+            //scrollView.OnCellClicked(index => selectIndexInputField.text = index.ToString());
 
             paddingTopInputField.onValueChanged.AddListener(_ =>
                 TryParseValue(paddingTopInputField, 0, 999, value => scrollView.PaddingTop = value));
@@ -38,9 +38,10 @@ namespace FancyScrollView.Example07
                 TryParseValue(spacingInputField, 0, 100, value => scrollView.Spacing = value));
             spacingInputField.text = scrollView.Spacing.ToString();
 
-            alignmentDropdown.AddOptions(Enum.GetNames(typeof(Alignment)).Select(x => new Dropdown.OptionData(x)).ToList());
+            alignmentDropdown.AddOptions(Enum.GetNames(typeof(Alignment)).Select(x => new Dropdown.OptionData(x))
+                .ToList());
             alignmentDropdown.onValueChanged.AddListener(_ => SelectCell());
-            alignmentDropdown.value = (int)Alignment.Middle;
+            alignmentDropdown.value = (int) Alignment.Middle;
 
             selectIndexInputField.onValueChanged.AddListener(_ => SelectCell());
             selectIndexInputField.text = "10";
@@ -49,7 +50,7 @@ namespace FancyScrollView.Example07
                 TryParseValue(dataCountInputField, 1, 99999, GenerateCells));
             dataCountInputField.text = "20";
 
-            scrollView.JumpTo(10);
+            scrollView.JumpTo(10, Alignment.Middle);
         }
 
         void TryParseValue(InputField inputField, int min, int max, Action<int> success)
@@ -76,7 +77,7 @@ namespace FancyScrollView.Example07
             }
 
             TryParseValue(selectIndexInputField, 0, scrollView.DataCount - 1, index =>
-                scrollView.ScrollTo(index, 0.3f, Ease.InOutQuint, (Alignment)alignmentDropdown.value));
+                scrollView.ScrollTo(index, 0.3f, Ease.InOutQuint, (Alignment) alignmentDropdown.value));
         }
 
         void GenerateCells(int dataCount)

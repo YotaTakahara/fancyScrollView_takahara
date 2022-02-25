@@ -6,19 +6,45 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Linq;
+using EasingCore;
+
 
 namespace FancyScrollView.Example07
 {
     class Cell : FancyScrollRectCell<ItemData, Context>
     {
+        [SerializeField] private ScrollView m_ScrollView;
         [SerializeField] Text message = default;
         [SerializeField] Image image = default;
         [SerializeField] Button button = default;
+        private const int DataCount = 20;
 
         public override void Initialize()
         {
-            button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+            button.onClick.AddListener(() => OnClickButton(Index));
         }
+
+        private void OnClickButton(int index)
+        {
+            GenerateCells();
+        }
+
+        public void GenerateCells()
+        {
+            var items = Enumerable.Range(0, DataCount)
+                .Select(i => new ItemData($"Cell {i}"))
+                .ToArray();
+            m_ScrollView.UpdateData(items);
+            SelectCell();
+        }
+
+        private void SelectCell()
+        {
+            m_ScrollView.ScrollTo(Index, 0.3f, Ease.InOutQuint, Alignment.Middle);
+        }
+
 
         public override void UpdateContent(ItemData itemData)
         {

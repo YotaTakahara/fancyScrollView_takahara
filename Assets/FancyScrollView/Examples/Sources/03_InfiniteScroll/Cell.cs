@@ -25,7 +25,7 @@ namespace FancyScrollView.Example03
 
         void Start()
         {
-            button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+            button.onClick.AddListener(() => Context.OnCellClicked.Invoke(Index));
         }
 
         public override void UpdateContent(ItemData itemData)
